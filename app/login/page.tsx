@@ -35,15 +35,13 @@ export default function LoginPage() {
 
       if (result?.ok) {
         toast.success('¡Bienvenido!')
-        // Reset loading antes de la navegación para evitar que el botón quede pillado
-        setIsLoading(false)
-        // Navegar usando el router del app router
-        await router.push('/dashboard')
-        return
+        
+        // Esperar un momento para que la cookie de sesión se establezca
+        await new Promise(resolve => setTimeout(resolve, 500))
+        
+        // Usar window.location.href para forzar recarga completa
+        window.location.href = '/dashboard'
       }
-
-      // Si result es undefined o no tiene ok/error, liberar el estado de carga
-      setIsLoading(false)
     } catch (error) {
       console.error('Login error:', error)
       toast.error('Error al iniciar sesión')
