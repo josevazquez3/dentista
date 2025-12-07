@@ -15,8 +15,10 @@ const updateAppointmentSchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 
@@ -70,8 +72,10 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 
@@ -119,7 +123,6 @@ export async function PATCH(
       include: { user: true }
     })
 
-    // Si se canceló, enviar email
     if (validatedData.status === 'CANCELLED') {
       await sendAppointmentCancellation({
         to: updatedAppointment.user.email,
@@ -149,8 +152,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 

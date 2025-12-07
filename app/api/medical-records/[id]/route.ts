@@ -13,8 +13,10 @@ const updateMedicalRecordSchema = z.object({
 
 export async function GET(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 
@@ -67,8 +69,10 @@ export async function GET(
 
 export async function PATCH(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 
@@ -111,8 +115,10 @@ export async function PATCH(
 
 export async function DELETE(
   request: Request,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const params = await context.params
+  
   try {
     const session = await getServerSession(authOptions)
 
