@@ -16,12 +16,14 @@ export const authOptions: AuthOptions = {
           if (!credentials?.email || !credentials?.password) {
             return null
           }
+          console.log('[next-auth] authorize called with email:', credentials.email)
 
           const user = await prisma.user.findUnique({
             where: { email: credentials.email }
           })
 
           if (!user) {
+            console.log('[next-auth] no user found for', credentials.email)
             return null
           }
 
@@ -31,9 +33,11 @@ export const authOptions: AuthOptions = {
           )
 
           if (!isPasswordValid) {
+            console.log('[next-auth] invalid password for', credentials.email)
             return null
           }
 
+          console.log('[next-auth] user authenticated:', user.email, user.id)
           return {
             id: user.id,
             email: user.email,
@@ -73,5 +77,5 @@ export const authOptions: AuthOptions = {
   },
   secret: process.env.NEXTAUTH_SECRET,
   useSecureCookies: process.env.NODE_ENV === 'production',
-  debug: false,
+  debug: true,
 }

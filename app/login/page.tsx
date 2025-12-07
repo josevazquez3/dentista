@@ -25,6 +25,8 @@ export default function LoginPage() {
         redirect: false,
       })
 
+      console.log('signIn result:', result)
+
       if (result?.error) {
         toast.error(result.error)
         setIsLoading(false)
@@ -33,10 +35,15 @@ export default function LoginPage() {
 
       if (result?.ok) {
         toast.success('¡Bienvenido!')
-        // Navegar usando el router del app router en lugar de modificar window.location
+        // Reset loading antes de la navegación para evitar que el botón quede pillado
+        setIsLoading(false)
+        // Navegar usando el router del app router
         await router.push('/dashboard')
         return
       }
+
+      // Si result es undefined o no tiene ok/error, liberar el estado de carga
+      setIsLoading(false)
     } catch (error) {
       console.error('Login error:', error)
       toast.error('Error al iniciar sesión')
