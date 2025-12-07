@@ -2,12 +2,10 @@
 
 import { useState } from 'react'
 import { signIn } from 'next-auth/react'
-import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import toast from 'react-hot-toast'
 
 export default function LoginPage() {
-  const router = useRouter()
   const [isLoading, setIsLoading] = useState(false)
   const [formData, setFormData] = useState({
     email: '',
@@ -19,29 +17,12 @@ export default function LoginPage() {
     setIsLoading(true)
 
     try {
-      const result = await signIn('credentials', {
+      // Usar redirect: true para que NextAuth maneje el redirect automáticamente
+      await signIn('credentials', {
         email: formData.email,
         password: formData.password,
-        redirect: false,
+        callbackUrl: '/dashboard',
       })
-
-      console.log('signIn result:', result)
-
-      if (result?.error) {
-        toast.error(result.error)
-        setIsLoading(false)
-        return
-      }
-
-      if (result?.ok) {
-        toast.success('¡Bienvenido!')
-        
-        // Esperar un momento para que la cookie de sesión se establezca
-        await new Promise(resolve => setTimeout(resolve, 500))
-        
-        // Usar window.location.href para forzar recarga completa
-        window.location.href = '/dashboard'
-      }
     } catch (error) {
       console.error('Login error:', error)
       toast.error('Error al iniciar sesión')
