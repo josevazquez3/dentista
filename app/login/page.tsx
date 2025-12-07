@@ -33,8 +33,9 @@ export default function LoginPage() {
 
       if (result?.ok) {
         toast.success('¡Bienvenido!')
-        // Forzar el refresh de la sesión y redirigir
-        window.location.href = '/dashboard'
+        // Navegar usando el router del app router en lugar de modificar window.location
+        await router.push('/dashboard')
+        return
       }
     } catch (error) {
       console.error('Login error:', error)
