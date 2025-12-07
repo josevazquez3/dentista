@@ -2,22 +2,27 @@
   "name": "dentista",
   "version": "1.0.0",
   "private": true,
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "prisma generate && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "vercel-build": "prisma generate && prisma migrate deploy && next build"
   },
   "dependencies": {
     "@heroicons/react": "^2.2.0",
-    "@prisma/client": "^6.0.0",
+    "@prisma/client": "6.0.1",
     "bcryptjs": "^2.4.3",
     "date-fns": "^4.1.0",
-    "next": "^15.1.3",
+    "next": "15.1.3",
     "next-auth": "^4.24.11",
     "nodemailer": "^6.9.16",
-    "react": "^19.0.0",
-    "react-dom": "^19.0.0",
+    "react": "19.0.0",
+    "react-dom": "19.0.0",
     "react-hook-form": "^7.54.2",
     "react-hot-toast": "^2.4.1",
     "swiper": "^11.1.15",
@@ -33,7 +38,7 @@
     "eslint": "^9.17.0",
     "eslint-config-next": "^15.1.3",
     "postcss": "^8.4.49",
-    "prisma": "^6.0.0",
+    "prisma": "6.0.1",
     "tailwindcss": "^3.4.17",
     "ts-node": "^10.9.2",
     "typescript": "^5.7.2"
