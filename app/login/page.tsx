@@ -27,14 +27,18 @@ export default function LoginPage() {
 
       if (result?.error) {
         toast.error(result.error)
-      } else {
+        setIsLoading(false)
+        return
+      }
+
+      if (result?.ok) {
         toast.success('¡Bienvenido!')
-        router.push('/dashboard')
-        router.refresh()
+        // Forzar el refresh de la sesión y redirigir
+        window.location.href = '/dashboard'
       }
     } catch (error) {
+      console.error('Login error:', error)
       toast.error('Error al iniciar sesión')
-    } finally {
       setIsLoading(false)
     }
   }
@@ -63,6 +67,7 @@ export default function LoginPage() {
               onChange={(e) => setFormData({ ...formData, email: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dental-accent focus:border-transparent"
               placeholder="tu@email.com"
+              disabled={isLoading}
             />
           </div>
 
@@ -77,13 +82,14 @@ export default function LoginPage() {
               onChange={(e) => setFormData({ ...formData, password: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-dental-accent focus:border-transparent"
               placeholder="••••••••"
+              disabled={isLoading}
             />
           </div>
 
           <button
             type="submit"
             disabled={isLoading}
-            className="w-full bg-dental-dark text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition disabled:opacity-50"
+            className="w-full bg-dental-dark text-white py-3 rounded-lg font-semibold hover:bg-opacity-90 transition disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isLoading ? 'Iniciando sesión...' : 'Iniciar Sesión'}
           </button>

@@ -16,19 +16,24 @@ export default function DashboardPage() {
       return
     }
 
+    // Redirigir según el rol
     if (session.user.role === 'ADMIN') {
-      router.push('/dashboard/admin')
+      router.replace('/dashboard/admin')
     } else {
-      router.push('/dashboard/user')
+      router.replace('/dashboard/user')
     }
   }, [session, status, router])
 
-  return (
-    <div className="min-h-screen bg-gradient-to-br from-dental-lightBlue to-white flex items-center justify-center">
-      <div className="text-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dental-dark mx-auto mb-4"></div>
-        <p className="text-gray-600">Cargando...</p>
+  if (status === 'loading') {
+    return (
+      <div className="min-h-screen bg-gradient-to-br from-dental-lightBlue to-white flex items-center justify-center">
+        <div className="text-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-dental-dark mx-auto mb-4"></div>
+          <p className="text-gray-600">Cargando...</p>
+        </div>
       </div>
-    </div>
-  )
+    )
+  }
+
+  return null
 }
